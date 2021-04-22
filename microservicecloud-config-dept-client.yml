@@ -1,0 +1,135 @@
+spring: 
+  profiles:
+    active:
+    - dev
+--- 
+server:
+  port: 8001
+spring: 
+   profiles: dev
+   application: 
+    name: microservicecloud-config-dept-client
+   datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.gjt.mm.mysql.Driver
+    url: jdbc:mysql://localhost:3306/cloudDB01
+    username: root
+    password: 123456
+    druid:
+      #初始化大小、最小、最大
+      initial-size: 5
+      min-idle: 5
+      max-active: 5
+      #配置获取连接等待超时的时间
+      max-wait: 600
+      #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 6000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 30000
+      validation-query: SELECT 1 FROM DUAL
+      validation-query-timeout: 1000
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      # 打开PSCache，并且指定每个连接上PSCache的大小
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 100
+      filters: stat,wall
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      stat-view-servlet:
+        login-username: druid
+        login-password: druid
+      keep-alive: true
+
+#配置mybaits
+mybatis:
+  #加载全局配置文件 根目录下的mybatis.xml文件
+  config-location: classpath:mybatis.xml
+  #mapper文件的扫描路径,mapper映射的文件
+  mapper-locations: classpath*:mapper/*.xml
+   #mapper对应映射的实体类包
+  type-aliases-package: com.study.springcloud.entity
+ 
+eureka: 
+  client: #客户端注册进eureka服务列表内
+    service-url: 
+      defaultZone: http://eureka7001.com:7001/eureka
+  instance:
+    instance-id: dept-8001.com
+    prefer-ip-address: true
+ 
+info:
+  app.name: springcloud-microservicecloud-springcloudconfig01
+  company.name: springcloud.com
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$
+---
+server:
+  port: 8001
+spring: 
+   profiles: test
+   application: 
+    name: microservicecloud-config-dept-client
+   datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.gjt.mm.mysql.Driver
+    url: jdbc:mysql://localhost:3306/cloudDB02
+    username: root
+    password: 123456
+   datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.gjt.mm.mysql.Driver
+    url: jdbc:mysql://localhost:3306/cloudDB01
+    username: root
+    password: 123456
+    druid:
+      #初始化大小、最小、最大
+      initial-size: 5
+      min-idle: 5
+      max-active: 5
+      #配置获取连接等待超时的时间
+      max-wait: 600
+      #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 6000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 30000
+      validation-query: SELECT 1 FROM DUAL
+      validation-query-timeout: 1000
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      # 打开PSCache，并且指定每个连接上PSCache的大小
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 100
+      filters: stat,wall
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      stat-view-servlet:
+        login-username: druid
+        login-password: druid
+      keep-alive: true
+
+#配置mybaits
+mybatis:
+  #加载全局配置文件 根目录下的mybatis.xml文件
+  config-location: classpath:mybatis.xml
+  #mapper文件的扫描路径,mapper映射的文件
+  mapper-locations: classpath*:mapper/*.xml
+   #mapper对应映射的实体类包
+  type-aliases-package: com.study.springcloud.entity
+ 
+eureka: 
+  client: #客户端注册进eureka服务列表内
+    service-url: 
+      defaultZone: http://eureka7001.com:7001/eureka
+  instance:
+    instance-id: dept-8001.com
+    prefer-ip-address: true
+ 
+info:
+  app.name: springcloud-microservicecloud-springcloudconfig02
+  company.name: www.springcloud.com
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$
+
